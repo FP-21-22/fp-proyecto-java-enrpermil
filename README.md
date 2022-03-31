@@ -1,66 +1,142 @@
-# Proyecto del Segundo Cuatrimestre Fundamentos de Programación (Curso  \<XX\>/\<YY\>)
-Autor/a: \<nombre del autor\>   uvus:\<uvus del autor\>
-
-Aquí debes añadir la descripción del dataset y un enunciado del dominio del proyecto.
+# Proyecto del Segundo Cuatrimestre Fundamentos de Programación (Curso  21/22)
+Autor/a: Enrique Pérez Milla   uvus:enrpermil
 
 
 ## Estructura de las carpetas del proyecto
 
 * **/src**: Contiene los diferentes archivos que forman parte del proyecto. Debe estar estructurado en los siguentes paquetes
-  * **fp.\<dominio\>**: Paquete que contiene los tipos del proyecto.
-  * **fp.\<dominio\>.test**: Paquete que contiene las clases de test del proyecto.
-  * **fp.common**: Paquete que contiene los tipos auxiliares del proyecto
+  * **fp.clinico**: Paquete que contiene los tipos del proyecto.
+  * **fp.clinico.test**: Paquete que contiene las clases de test del proyecto.
+  * **fp.vacunas**: Paquete que contiene un tipo Vacunación
   * **fp.utiles**:  Paquete que contiene las clases de utilidad. 
 * **/data**: Contiene el dataset o datasets del proyecto
-    * **\<dataset1.csv\>**: Añade una descripción genérica del dataset.
-    * **\<dataset2.csv\>**: Añade una descripción del resto de datasets que puedas tener.
+* **/doc**: Contiene la documentación del proyecto.
     
 ## Estructura del *dataset*
 
-Aquí debes describir la estructura del dataset explicando qué representan los datos que contiene y la descripción de cada una de las columnas. Incluye también la URL del dataset original.
 
-El dataset está compuesto por \<N\> columnas, con la siguiente descripción:
-
-* **\<columna 1>**: de tipo \<tipo\>, representa....
-* **\<columna 2>**: de tipo \<tipo\>, representa....
-....
 
 ## Tipos implementados
 
-Describe aquí los tipos que usas en tu proyecto.
+### Tipo Persona
 
-### Tipo Base
-Descripción breve del tipo base.
 
 **Propiedades**:
 
-- _propiedad1_, de tipo \<Tipo1\>, consultable. 
-- _propiedad2_, de tipo \<Tipo2\>, consultable y modificable. 
-- ...
-- 
+- nombre, de tipo String, consultable. 
+- apellidos, de tipo String, consultable. 
+- dni, de tipo String, consultable. 
+- fechaNacimiento, de tipo LocalDate, consultable.
+- edad, de tipo Integer, derivada y consultable.
 **Constructores**: 
 
-- C1: Descripción del constructor 1.
-- C2: Descripción del constructor 2.
-- ...
-
+- Implícitos en el tipo Record
 **Restricciones**:
  
-- R1: Descripción de la restricción 1.
-- R2: Descripción de la restricción 2.
-- ...
-- 
-**Criterio de igualdad**: Describir el criterio de igualdad
+- R1: Fecha de nacimiento debe ser anterior a la fecha actual.
+- R2: DNI debe ser cadena de 8 dígitos seguidos de una letra.
 
-**Criterio de ordenación**: Describir el criterio de ordenación (si lo hay).
+**Criterio de igualdad**: Por defecto asociado al Record.
+
+**Criterio de ordenación**: Ordenar por el DNI (Compare to)
 
 **Otras operaciones**:
  
--	_método 1_: Descripción del método 1.
-- ...
+- Método static of: recibe nombre, apellidos, dni y fecha de nacimiento y devuelve una persona.
+- Método static parse: Recibe una cadena con un formato específico y devuelve una persona. 
+
+### Tipo Paciente
+
+
+**Propiedades**:
+
+- persona, de tipo Persona, consultable. 
+- codIngreso, de tipo String, consultable. 
+- fechahora, de tipo LocalDateTime, consultable. 
+- fechaIngreso, de tipo LocalDate, derivada y consultable.
+- horaIngreso, de tipo String, derivada y consultable.
+**Constructores**: 
+
+- Implícitos en el tipo Record
+**Restricciones**:
+ 
+- R1: Fecha y hora de ingreso debe ser anterior o igual a la fecha actual.
+
+**Criterio de igualdad**: Por defecto asociado al Record.
+
+**Otras operaciones**:
+ 
+- Método static of: recibe nombre, apellidos, dni, fecha de nacimiento, código y fecha y hora de
+ingreso y devuelve un paciente. 
+
+- Método static of: Recibe una cadena con un formato específico y devuelve una persona.
+- Método static of: recibe un objeto persona, un código y una fecha y hora de ingreso y devuelve
+un paciente. 
+
+### Tipo PacienteEstudio
+
+
+**Propiedades**:
+
+- id, de tipo String, consultable.
+- genero, de tipo String, consultable.
+- edad, de tipo Double, consultable.
+- hipertensión, de tipo Boolean, consultable.
+- enfermedadCorazon, de tipo Boolean, consultable.
+- tipoResidencia, enumerado TipoResidencia, consultable.
+- nivelMedioGlucosa, de tipo Double, consultable.
+- factor de riesgo, de tipo Boolean, derivada y consultable.
+
+**Constructores**: 
+
+- Implícitos en el tipo Record
+**Restricciones**:
+ 
+- R1: La edad tiene que estar entre 0 y 130
+- R2: Nivel medio de glucosa mayor o igual a cero.
+
+**Criterio de igualdad**: Por defecto asociado al Record.
+**Criterio de orden**: Ordenación según la edad, y en caso de ser la misma, según el dni.
+
+**Otras operaciones**:
+ 
+- Método static of: recibe valores para cada propiedad básica y devuelve un objeto del tipo
+
+- Método static of: recibe una cadena con un formato especificado y y devuelve un objeto del
+tipo
+
+### Tipo Vacunacion
+
+
+**Propiedades**:
+
+- fecha, de tipo LocalDate, consultable.
+- comunidad, de tipo String, consultable.
+- pfizer, de tipo Integer, consultable.
+- moderna, de tipo Integer, consultable.
+- astrazeneca, de tipo Integer, consultable.
+- janssen, de tipo Integer, consultable.
+- numPersonas, de tipo Integer, consultable.
+- numTotal, de tipo Integer, derivada y consultable.
+
+**Constructores**: 
+
+- Implícitos en el tipo Record
+
+**Restricciones**:
+ 
+- R1: La fecha de debe ser posterior al 01/02/2021
+
+**Criterio de igualdad**: Por defecto asociado al Record.
+
+**Criterio de orden**: Ordenación según la comunidad, y en caso de ser la misma, según la fecha.
+
+**Otras operaciones**:
+ 
+- Método static of: recibe valores para cada propiedad básica y devuelve un objeto del tipo
 
 #### Tipos auxiliares
-Descripción de los tipos auxiliares que sean necesarios añadir al proyecto.
+Tipo Enumerado cuyos posibles valores son RURAL y URBANO
 
 ### Factoría
 Descripción breve de la factoría.
@@ -70,7 +146,7 @@ Descripción breve de la factoría.
 
 ### Tipo Contenedor
 
-Descripción breve del tipo contenedor.
+De momento no es necesario la implementación.
 
 **Propiedades**:
 
